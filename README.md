@@ -1,5 +1,5 @@
 # CSMN_script
 non snitchare
 
-sei un matto
+sei un matto\
 Matteo fa la legge
