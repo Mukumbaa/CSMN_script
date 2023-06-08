@@ -1,0 +1,18 @@
+function [x, k] = gs(A, b, tol, kmax, x0)
+    n = size(A, 1);
+    x = x0;
+    k = 0;
+    error = tol + 1;
+    
+    while error > tol && k < kmax
+        x_prev = x;
+        
+        for i = 1:n
+            sigma = A(i, 1:i-1) * x(1:i-1) + A(i, i+1:end) * x_prev(i+1:end);
+            x(i) = (b(i) - sigma) / A(i, i);
+        end
+        
+        error = norm(x - x_prev);
+        k = k + 1;
+    end
+end

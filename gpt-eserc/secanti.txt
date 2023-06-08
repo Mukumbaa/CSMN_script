@@ -1,0 +1,12 @@
+function [x, k] = secanti(fun, x0, x1, tol, kmax)
+    f = @(x) feval(fun, x);  % Convert fun to function handle
+    x = x1;
+    k = 0;
+
+    while abs(f(x)) > tol && k < kmax
+        x_next = x - (f(x) * (x - x0)) / (f(x) - f(x0));
+        x0 = x;
+        x = x_next;
+        k = k + 1;
+    end
+end

@@ -1,0 +1,10 @@
+function [x, k] = corde(fun, m, x0, tol, kmax)
+    f = @(x) feval(fun, x);  % Convert fun to function handle
+    x = x0;
+    k = 0;
+
+    while abs(f(x)) > tol && k < kmax
+        x = x - f(x) / m;
+        k = k + 1;
+    end
+end

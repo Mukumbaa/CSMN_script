@@ -1,0 +1,50 @@
+function [L, U] = gauss_lu(A)
+    n = size(A, 1);
+    L = eye(n);
+    U = A;
+
+    for k = 1:n-1
+        for i = k+1:n
+            L(i, k) = U(i, k) / U(k, k);
+            U(i, k:n) = U(i, k:n) - L(i, k) * U(k, k:n);
+        end
+    end
+end
+
+////TEST////
+% Script test_gauss_lu.m
+
+% Inizializzazione delle variabili
+sizes = 100:100:1000; % Dimensioni delle matrici
+numSizes = numel(sizes); % Numero di dimensioni
+
+% Ciclo per ogni dimensione della matrice
+for k = 1:numSizes
+    n = sizes(k);
+    
+    fprintf('Dimensione della matrice: %d\n', n);
+    
+    % Creazione della matrice A
+    A = rand(n, n);
+    
+    % Creazione del vettore dei termini noti b
+    x = ones(n, 1);
+    b = A * x;
+    
+    % Chiamata alla funzione gauss_lu per ottenere L e U
+    [L, U] = gauss_lu(A);
+    
+    % Risoluzione dei sistemi a cascata per ottenere x1
+    y = L \ b;
+    x1 = U \ y;
+    
+    % Calcolo dell'errore relativo tra x e x1
+    relativeError = norm(x - x1) / norm(x);
+    
+    % Calcolo del condizionamento della matrice A
+    conditionNumber = cond(A);
+    
+    % Stampare l'errore relativo e il condizionamento a video
+    fprintf('Errore relativo: %.6e\n', relativeError);
+    fprintf('Condizionamento di A: %.6e\n\n', conditionNumber);
+end
